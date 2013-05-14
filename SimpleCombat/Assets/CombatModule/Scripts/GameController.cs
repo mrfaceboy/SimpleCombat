@@ -26,6 +26,9 @@ public class GameController : MonoBehaviour {
 	Profile attacker;
 	Profile defender;
 	
+	//the card that is passed into the upgrade scene to be upgraded
+	static public PlayerCard temp;
+	
 	AttackOption currentAttack;
 	DefendOption currentDefend;
 	
@@ -42,6 +45,7 @@ public class GameController : MonoBehaviour {
 	bool targetHealthReached = false;
 	bool targetEnduranceReached = false;
 	
+	
 	public PlayerIndex playerTurn = PlayerIndex.One;
 	
 	public TurnStage turnStage = TurnStage.PlayerStart;
@@ -49,8 +53,12 @@ public class GameController : MonoBehaviour {
 	public float turnCounter = 0;
 	public float turnRate = 4;
 	
-	
-	
+	//run this once to pass stats from title to game
+	public static void getPlayer(PlayerCard importPlayer){
+		temp = importPlayer;
+		
+		
+	}
 	
 	// Use this for initialization
 	void Start () {
@@ -59,8 +67,7 @@ public class GameController : MonoBehaviour {
 		//else playerTurn = PlayerIndex.Two;
 		
 		player1 = new Player();
-		player1.AddAttackOption("Punch", AttackMethod.Attack, ActionGroup.Group1, 3, 1, "Puncha their face!"); 
-		player1.AddDefendOption("Shield", ActionGroup.Group1, 1, 1, "Made out of wood");
+		PassStats((Player)player1, out player1);
 		
 		player2 = new Player();
 		player2.AddAttackOption("Kick", AttackMethod.Attack, ActionGroup.Group1, 3, 1, "Kick ya in the pants!");
@@ -73,6 +80,26 @@ public class GameController : MonoBehaviour {
 		enduranceBar1Height = 0;
 		enduranceBar2Height = 0;
 		
+	}
+	
+	//takes information from card and gives it to player
+	void PassStats(Player playerIn, out Profile playerOut){
+		playerIn.hpMax = temp.health;
+		playerIn.enduranceMax = temp.maxStamina;
+		playerIn.regenRate = temp.stamRegen;
+		playerIn.AddAttackOption("Punch", AttackMethod.Attack, ActionGroup.Group1, temp.attack_1, 1, "Punch their Face!");
+		playerIn.AddAttackOption("Kick" , AttackMethod.Attack, ActionGroup.Group2, temp.attack_2, 2, "Kick ya in the pants!");
+		playerIn.AddAttackOption("Sword", AttackMethod.Attack, ActionGroup.Group3, temp.attack_3, 3, "Where did that sword come from!");
+		playerIn.AddAttackOption("Calm Mind", AttackMethod.Meditation, ActionGroup.Group1, temp.meditate_1, 0, "calms the mind");
+		playerIn.AddAttackOption("Warm Tea" , AttackMethod.Meditation, ActionGroup.Group2, temp.meditate_2, 0, "mmmmmm tea");
+		playerIn.AddAttackOption("Sleep"    , AttackMethod.Meditation, ActionGroup.Group3, temp.meditate_3, 0, "West and Wewaxation at wast");
+		
+		playerIn.AddDefendOption("Mommy" , ActionGroup.Group1, temp.defend_1, 1, "Awww.. needs his mommy to protect him.");
+		playerIn.AddDefendOption("Block" , ActionGroup.Group2, temp.defend_2, 1, "block with your arm");
+		playerIn.AddDefendOption("Shield", ActionGroup.Group3, temp.defend_3, 1, "Made out of wood");
+		
+		
+		playerOut = playerIn;
 	}
 	
 	// Update is called once per frame
@@ -95,49 +122,34 @@ public class GameController : MonoBehaviour {
 		
 	}
 	
-	
-	
 	void OnGUI()
 	{
 		//Create the two hp bars for each player
-		
-		
 		float hpRatio = (float)player1.hpCurrent / (float)player1.hpMax;
 		float targetBarWidth = healthBar.width * hpRatio;
-		float deltaValue = targetBarWidth - healthBar1Width;
-		healthBar1Width += deltaValue / 8;
-		if (Mathf.Abs(deltaValue) < .02f) healthBar1Width = targetBarWidth;
-		if (healthBar1Width == targetBarWidth && playerTurn == PlayerIndex.Two) targetHealthReached = true;
+		healthBar1Width += (targetBarWidth - healthBar1Width) / 2;
 		GUI.DrawTexture(new Rect(10, Screen.height - healthBar.height - 20, healthBar1Width, healthBar.height), healthBar, ScaleMode.StretchToFill);
-	
+		
 		hpRatio = (float)player2.hpCurrent / (float)player2.hpMax;
 		targetBarWidth = healthBar.width * hpRatio;
 		healthBar2Width += (targetBarWidth - healthBar2Width) / 8;
-		if (Mathf.Abs(targetBarWidth - healthBar2Width) < .02f) healthBar2Width = targetBarWidth;
-		if (healthBar1Width == targetBarWidth && playerTurn == PlayerIndex.One) targetHealthReached = true;
 		GUI.DrawTexture(new Rect(Screen.width - healthBar2Width - 10, Screen.height - healthBar.height - 20, healthBar2Width, healthBar.height), healthBar, ScaleMode.StretchToFill);
-
+		
+		
+		
 		float enduranceRatio = (float)player1.enduranceCurrent / (float)player1.enduranceMax;
 		float barHeight = enduranceBar.height * enduranceRatio;
-		enduranceBar1Height += (barHeight - enduranceBar1Height) / 8;
-		if (Mathf.Abs(targetBarWidth - enduranceBar1Height) < .02f) enduranceBar1Height = targetBarWidth;
-		if (enduranceBar1Height == barHeight && playerTurn == PlayerIndex.One) targetEnduranceReached = true;
+		enduranceBar1Height += (barHeight - enduranceBar1Height) / 2;
 		GUI.DrawTexture(new Rect(10, Screen.height - enduranceBar1Height - 60, enduranceBar.width, enduranceBar1Height), enduranceBar, ScaleMode.StretchToFill);
-
+		
 		enduranceRatio = (float)player2.enduranceCurrent / (float)player2.enduranceMax;
 		barHeight = enduranceBar.height * enduranceRatio;
 		enduranceBar2Height += (barHeight - enduranceBar2Height) / 8;
-		if (Mathf.Abs(targetBarWidth - enduranceBar2Height) < .02f) enduranceBar2Height = targetBarWidth;
-		if (enduranceBar2Height == barHeight && playerTurn == PlayerIndex.Two) targetEnduranceReached = true;
 		GUI.DrawTexture(new Rect(Screen.width - enduranceBar.width - 10, Screen.height - enduranceBar2Height - 60, enduranceBar.width, enduranceBar2Height), enduranceBar, ScaleMode.StretchToFill);
-
+		
+		
 		switch (turnStage)
 		{
-		case TurnStage.RecoverEndurance:
-			
-			GUI.Label(new Rect(Screen.width / 2 - 100, 50, 200, 20), "Recovery Stage");
-			
-			break;
 			
 		case TurnStage.PlayerStart:
 			
@@ -202,13 +214,11 @@ public class GameController : MonoBehaviour {
 			
 			if (turnCounter == 0)
 			{
-				attacker.RecoverEndurance(attacker.enduranceRegen);
-				targetEnduranceReached = false;
-				turnCounter++;
+				attacker.RecoverEndurance(4);
 			}
 			
-		
-			if (targetEnduranceReached)
+			turnCounter += Time.deltaTime;			
+			if (turnCounter >= turnRate)
 			{
 				turnStage = TurnStage.ChooseAttack;
 			}

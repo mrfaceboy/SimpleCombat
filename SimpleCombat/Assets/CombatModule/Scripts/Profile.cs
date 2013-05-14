@@ -17,7 +17,7 @@ public class Profile {
 	
 	public int enduranceCurrent = 0;
 	public int enduranceMax = 20;
-	public int enduranceRegen = 4;
+	public int regenRate = 2;
 	
 	public List<AttackOption> attackList = new List<AttackOption>();
 	public List<DefendOption> defendList = new List<DefendOption>();

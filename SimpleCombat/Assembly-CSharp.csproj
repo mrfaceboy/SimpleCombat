@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{E2A6EA75-F281-64C7-AEEC-30AF09026DCF}</ProjectGuid>
+	<ProjectGuid>{95F95918-CFA6-3273-F990-E408FA8A31B4}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -48,7 +48,10 @@
      <Compile Include="Assets\CombatModule\Scripts\DefendOption.cs" />
      <Compile Include="Assets\CombatModule\Scripts\GameController.cs" />
      <Compile Include="Assets\CombatModule\Scripts\Player.cs" />
+     <Compile Include="Assets\CombatModule\Scripts\PlayerCard.cs" />
      <Compile Include="Assets\CombatModule\Scripts\Profile.cs" />
+     <Compile Include="Assets\CombatModule\Scripts\TitleScreen.cs" />
+     <Compile Include="Assets\CombatModule\Scripts\UpgradeScreen.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
