@@ -13,11 +13,20 @@ public class Profile {
 	
 	
 	public int hpCurrent = 30;
-	public int hpMax = 30;
+	public int _hpMax = 30;
+	public int hpMax
+	{
+		get { return _hpMax; }
+		set 
+		{
+			_hpMax = value;
+			hpCurrent = value;
+		}
+	}
 	
 	public int enduranceCurrent = 0;
 	public int enduranceMax = 20;
-	public int regenRate = 2;
+	public int enduranceRegen = 2;
 	
 	public List<AttackOption> attackList = new List<AttackOption>();
 	public List<DefendOption> defendList = new List<DefendOption>();
