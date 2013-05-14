@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CombatModule\Scripts\GameController.cs">
+    <Files>
+      <File FileName="Assets\CombatModule\Scripts\GameController.cs" Line="143" Column="49" />
+      <File FileName="Assets\CombatModule\Scripts\Player.cs" Line="6" Column="2" />
+      <File FileName="Assets\CombatModule\Scripts\Profile.cs" Line="55" Column="3" />
+      <File FileName="Assets\CombatModule\Scripts\DefendOption.cs" Line="19" Column="34" />
+      <File FileName="Assets\CombatModule\Scripts\AttackOption.cs" Line="33" Column="34" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
